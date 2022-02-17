@@ -11,7 +11,13 @@ function getPizzaOrder() {
   var pizza = {
     // set the 'cost' property to the basePrice
     // YOUR CODE HERE
-  }
+    cost: basePrice,
+    /*crust: 
+    toppings:
+    extraCheese:
+    saleType */
+    
+  };
 
   var crust = prompt(
     `Please enter the type of crust (${formatPrice(thickCrustUpcharge)} upcharge for Thick crust)`
@@ -22,6 +28,11 @@ function getPizzaOrder() {
   // if the user specified 'thick' crust, add thickCrustUpcharge
   // to pizza.cost
   // YOUR CODE HERE
+  pizza.crust = crust.toLowerCase();
+
+  if (pizza.crust == 'thick') {
+    pizza.cost = pizza.cost + thickCrustUpcharge;
+  }
 
   var toppings = prompt("Please enter additional toppings (comma separated)")
   // HINT: prompt() will return an empty string "" if the user presses 'OK' without entering a value
@@ -31,11 +42,29 @@ function getPizzaOrder() {
   // the number of toppings added to pizza.cost
   // YOUR CODE HERE
 
+  switch(toppings) {
+    case "":
+    pizza.toppings = [];
+    break;
+
+    default:
+      pizza.toppings = toppings.split(",");
+      toppingsFee = toppingsFee * pizza.toppings.length;
+      pizza.cost = pizza.cost + toppingsFee; 
+  }
+
   var extraCheese = confirm("Would you like extra cheese?")
   // HINT: confirm() returns a boolean
   // if the user specifies extra cheese, set pizza.extraCheese to true or false
   // if the user specifies extra cheese, add extraCheeseUpcharge to pizza.cost
   // YOUR CODE HERE
+  if (extraCheese === true){
+    pizza.extraCheese = true;
+    pizza.cost = pizza.cost + extraCheeseUpcharge;
+  } else {
+    pizza.extraCheese = false;
+  }
+
 
   var isDelivery = confirm("Is your order for Delivery?")
   // HINT: confirm() returns a boolean
@@ -43,6 +72,16 @@ function getPizzaOrder() {
   // if order is NOT for delivery, set pizza.saleType to "take-out"
   // if order if for delivery, add deliveryFee to pizza.cost
   // YOUR CODE HERE
+  switch(isDelivery){
+    case true:
+      pizza.saleType = "delivery";
+      pizza.cost = pizza.cost + deliveryFee;
+      break;
+    
+    case false:
+      pizza.saleType = "take-out";
+      break;
+  }
 
   return pizza
 }
